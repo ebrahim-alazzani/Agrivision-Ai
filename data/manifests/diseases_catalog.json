@@ -1,0 +1,190 @@
+[
+  {
+    "id": "dis-late-blight",
+    "name_ar": "اللفحة المتأخرة",
+    "name_en": "Late Blight",
+    "scientific_name": "Phytophthora infestans",
+    "pathogen_type": "Oomycete",
+    "affected_crops": ["crop-tomato", "crop-potato"],
+    "symptoms_description_ar": "ظهور بقع مائية غير منتظمة خضراء شاحبة على الأوراق تتحول بسرعة إلى اللون البني الداكن أو الأسود مع حواف باهتة. في الأجواء الرطبة والباردة، يتكون زغب أبيض قطني على السطح السفلي للأوراق. تؤدي الإصابة إلى موت المجموع الخضري بالكامل وتعفن الدرنات والثمار برائحة كريهة مميزة.",
+    "symptoms_description_en": "Water-soaked irregular pale-green spots on leaves turning rapidly dark brown to black. In humid conditions, white cottony mildew forms on the lower leaf surface, resulting in complete foliar collapse and tuber/fruit rot.",
+    "severity_levels": ["healthy", "low", "medium", "high", "severe"],
+    "treatment_guidelines": {
+      "preventive_cultural": [
+        "تجنب الري بالرشاشات واستخدام الري بالتنقيط لتقليل بلل الأوراق",
+        "زراعة أصناف وتقاوي معتمدة خالية من الأمراض",
+        "إتلاف وحرق النباتات المصابة بشدة وبقايا المحصول السابق"
+      ],
+      "approved_active_ingredients": [
+        {
+          "active_ingredient": "Mefenoxam + Mancozeb",
+          "standard_dosage": "2.5 g/L",
+          "phi_days_tomato": 7,
+          "phi_days_potato": 14,
+          "notes_ar": "يستخدم وقائياً وعلاجياً عند بدء ظهور الظروف المواتية للرطوبة"
+        },
+        {
+          "active_ingredient": "Copper Hydroxide",
+          "standard_dosage": "2.0 g/L",
+          "phi_days_tomato": 3,
+          "phi_days_potato": 7,
+          "notes_ar": "مبيد نحاسي وقائي ممتاز قبل هطول الأمطار"
+        }
+      ]
+    }
+  },
+  {
+    "id": "dis-early-blight",
+    "name_ar": "اللفحة المبكرة",
+    "name_en": "Early Blight",
+    "scientific_name": "Alternaria solani",
+    "pathogen_type": "Fungal",
+    "affected_crops": ["crop-tomato", "crop-potato"],
+    "symptoms_description_ar": "بقع بنية جافة دائرية إلى بيضاوية على الأوراق المسنة السفلية، تتميز بوجود حلقات دائرية متداخلة متحدة المركز تشبه لوحة التصويب (Target board)، محاطة بهالة صفراء وتؤدي إلى جفاف وتساقط الأوراق مبكراً.",
+    "symptoms_description_en": "Brown circular lesions with characteristic concentric target-board rings surrounded by a chlorotic yellow halo, primarily on older lower leaves.",
+    "severity_levels": ["low", "medium", "high"],
+    "treatment_guidelines": {
+      "preventive_cultural": [
+        "إزالة الأوراق السفلية المصابة والتخلص منها خارج الحقل",
+        "تطبيق دورة زراعية ثلاثية لا تشتمل على العائلة الباذنجانية",
+        "تجنب إجهاد النبات بالعطش أو نقص النيتروجين"
+      ],
+      "approved_active_ingredients": [
+        {
+          "active_ingredient": "Difenoconazole",
+          "standard_dosage": "0.5 ml/L",
+          "phi_days_tomato": 7,
+          "phi_days_potato": 14,
+          "notes_ar": "مبيد جهازي علاجي يوقف تطور الفطر داخل الأنسجة"
+        },
+        {
+          "active_ingredient": "Chlorothalonil",
+          "standard_dosage": "2.0 ml/L",
+          "phi_days_tomato": 5,
+          "phi_days_potato": 7,
+          "notes_ar": "مبيد ملامسة وقائي عريض الطيف"
+        }
+      ]
+    }
+  },
+  {
+    "id": "dis-powdery-mildew",
+    "name_ar": "البياض الدقيقي",
+    "name_en": "Powdery Mildew",
+    "scientific_name": "Leveillula taurica / Erysiphe necator",
+    "pathogen_type": "Fungal",
+    "affected_crops": ["crop-tomato", "crop-grape", "crop-mango", "crop-wheat", "crop-qat"],
+    "symptoms_description_ar": "ظهور بقع مسحوقية بيضاء ناصعة تشبه بودرة الطحين على الأسطح العلوية والسفلية للأوراق والقمم النامية والثمار الغضة، مع تجعد واصفرار الأوراق وجفاف حوافها وتشوه العناقيد في العنب.",
+    "symptoms_description_en": "White powdery fungal patches on upper and lower leaf surfaces, tender shoots and fruit bunches, causing curling, yellowing and premature desiccation.",
+    "severity_levels": ["low", "medium", "high"],
+    "treatment_guidelines": {
+      "preventive_cultural": [
+        "تقليم الأفرع المتشابكة لتحسين التهوية ونفاذ أشعة الشمس",
+        "الاعتدال في التسميد النيتروجيني لتجنب النمو الخضري الغض الشديد"
+      ],
+      "approved_active_ingredients": [
+        {
+          "active_ingredient": "Micronized Sulfur",
+          "standard_dosage": "2.5 g/L",
+          "phi_days_tomato": 1,
+          "phi_days_potato": 3,
+          "notes_ar": "علاج وقائي ممتاز وآمن، لا يستخدم في درجات حرارة تتجاوز 35 مئوية"
+        },
+        {
+          "active_ingredient": "Hexaconazole",
+          "standard_dosage": "1.0 ml/L",
+          "phi_days_tomato": 7,
+          "phi_days_potato": 14,
+          "notes_ar": "مبيد تريازول جهازي عالي الكفاءة في إيقاف الجراثيم الفطرية"
+        }
+      ]
+    }
+  },
+  {
+    "id": "dis-coffee-rust",
+    "name_ar": "صدأ أوراق البن",
+    "name_en": "Coffee Leaf Rust",
+    "scientific_name": "Hemileia vastatrix",
+    "pathogen_type": "Fungal",
+    "affected_crops": ["crop-coffee"],
+    "symptoms_description_ar": "بقع صفراء دائرية على السطح العلوي لأوراق البن يقابلها على السطح السفلي كتل مسحوقية برتقالية إلى صفراء زاهية من الجراثيم اليوريدية. يؤدي اشتداد الإصابة إلى تساقط أوراق الأشجار بالكامل وموت الأفرع الطرفية وانخفاض هائل في المحصول.",
+    "symptoms_description_en": "Chlorotic yellow spots on upper leaf surfaces matching bright orange powdery spore masses on the underside, causing severe premature defoliation and branch dieback.",
+    "severity_levels": ["low", "medium", "high", "critical"],
+    "treatment_guidelines": {
+      "preventive_cultural": [
+        "التقليم المنتظم لأشجار البن وتجديد الأفرع الهرمة",
+        "الحفاظ على نظافة المدرجات الزراعية وإدارة الظل بشكل متوازن",
+        "استخدام الأصناف المحلية المقاومة المتكيفة مع المرتفعات"
+      ],
+      "approved_active_ingredients": [
+        {
+          "active_ingredient": "Copper Oxychloride",
+          "standard_dosage": "3.0 g/L",
+          "phi_days_tomato": 14,
+          "phi_days_potato": 21,
+          "notes_ar": "الرش الوقائي مع بداية هطول أمطار الربيع وقبل انتشار الجراثيم"
+        },
+        {
+          "active_ingredient": "Cyproconazole",
+          "standard_dosage": "0.5 ml/L",
+          "phi_days_tomato": 30,
+          "phi_days_potato": 30,
+          "notes_ar": "مبيد جهازي علاجي يستخدم في الحالات المتقدمة"
+        }
+      ]
+    }
+  },
+  {
+    "id": "dis-tylcv",
+    "name_ar": "فيروس تجعد واصفرار أوراق الطماطم",
+    "name_en": "Tomato Yellow Leaf Curl Virus",
+    "scientific_name": "Begomovirus (TYLCV)",
+    "pathogen_type": "Viral",
+    "affected_crops": ["crop-tomato"],
+    "symptoms_description_ar": "تقزم شديد للنبات وتجمع الأوراق في قمة الساق، صغر حجم الأوراق وتجعد حوافها نحو الأعلى وتلون حواف الأوراق باللون الأصفر الشاحب، تساقط الأزهار وفشل تكوين الثمار.",
+    "symptoms_description_en": "Severe plant stunting, bushy erect shoot habit, pronounced upward cupping of leaves with chlorotic margins, and blossom drop transmitted by Bemisia tabaci.",
+    "severity_levels": ["medium", "high", "severe"],
+    "treatment_guidelines": {
+      "preventive_cultural": [
+        "استخدام مصائد صفراء لاصقة لرصد ومكافحة الذبابة البيضاء الناقلة",
+        "تغطية المشاتل بالشباك الحشرية غير المنفذة (Agryl)",
+        "قلع النباتات المصابة فوراً ووضعها في أكياس محكمة وإعدامها"
+      ],
+      "approved_active_ingredients": [
+        {
+          "active_ingredient": "Thiamethoxam",
+          "standard_dosage": "0.4 g/L",
+          "phi_days_tomato": 7,
+          "phi_days_potato": 14,
+          "notes_ar": "مكافحة الحشرة الناقلة (الذبابة البيضاء) لحماية المحصول من العدوى"
+        }
+      ]
+    }
+  },
+  {
+    "id": "dis-anthracnose",
+    "name_ar": "الأنثراكنوز (تبقع الثمار واللفحة)",
+    "name_en": "Anthracnose",
+    "scientific_name": "Colletotrichum gloeosporioides",
+    "pathogen_type": "Fungal",
+    "affected_crops": ["crop-mango", "crop-coffee", "crop-grape"],
+    "symptoms_description_ar": "بقع دائرية بنية غائرة على الثمار الناضجة تكبر لتشكل حلقات داكنة ذات قوام جلدي يظهر في مركزها إفرازات وردية في الرطوبة. في المانجو، يسبب لفحة النورات الزهرية وسقوطها.",
+    "symptoms_description_en": "Sunken circular dark lesions on ripening fruits, blossom blight on mango panicles, and dark necrotic spots on leaves and stems.",
+    "severity_levels": ["low", "medium", "high"],
+    "treatment_guidelines": {
+      "preventive_cultural": [
+        "تقليم وحرق الشماريخ الزهرية والأغصان الجافة بعد الحصاد",
+        "غسل الثمار بالماء الدافئ (50 مئوية لمدة 5 دقائق) بعد الحصاد لتقليل العفن"
+      ],
+      "approved_active_ingredients": [
+        {
+          "active_ingredient": "Azoxystrobin",
+          "standard_dosage": "0.5 ml/L",
+          "phi_days_tomato": 7,
+          "phi_days_potato": 14,
+          "notes_ar": "مبيد استروبيلورين وقائي وعلاجي عالي الفاعلية"
+        }
+      ]
+    }
+  }
+]

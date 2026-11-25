@@ -1,0 +1,145 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AgriVisionAnalysisResult",
+  "description": "Standardized output structure for AgriVision AI multi-engine diagnostic inferences",
+  "type": "object",
+  "required": [
+    "analysis_id",
+    "timestamp",
+    "crop",
+    "primary_diagnosis",
+    "confidence",
+    "processing_time_ms",
+    "inference_tier"
+  ],
+  "properties": {
+    "analysis_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique UUID assigned to this inference run"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when analysis was completed"
+    },
+    "image_metadata": {
+      "type": "object",
+      "properties": {
+        "width": { "type": "integer" },
+        "height": { "type": "integer" },
+        "format": { "type": "string" },
+        "file_size_kb": { "type": "number" }
+      }
+    },
+    "inference_tier": {
+      "type": "string",
+      "enum": ["on_device_lite", "server_full", "hybrid_ensemble"],
+      "description": "Execution environment where model was evaluated"
+    },
+    "crop": {
+      "type": "object",
+      "required": ["crop_id", "name_en", "name_ar", "confidence"],
+      "properties": {
+        "crop_id": { "type": "string" },
+        "name_en": { "type": "string" },
+        "name_ar": { "type": "string" },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "primary_diagnosis": {
+      "type": "object",
+      "required": ["category", "id", "name_en", "name_ar", "confidence", "severity"],
+      "properties": {
+        "category": {
+          "type": "string",
+          "enum": ["healthy", "disease", "pest", "nutritional_deficiency", "physiological"]
+        },
+        "id": { "type": "string" },
+        "name_en": { "type": "string" },
+        "name_ar": { "type": "string" },
+        "scientific_name": { "type": "string" },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "severity": {
+          "type": "string",
+          "enum": ["healthy", "low", "medium", "high", "severe"]
+        },
+        "symptoms_summary_ar": { "type": "string" },
+        "symptoms_summary_en": { "type": "string" }
+      }
+    },
+    "pest_detections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["pest_id", "name_en", "name_ar", "confidence", "box_2d"],
+        "properties": {
+          "pest_id": { "type": "string" },
+          "name_en": { "type": "string" },
+          "name_ar": { "type": "string" },
+          "confidence": { "type": "number" },
+          "box_2d": {
+            "type": "array",
+            "items": { "type": "number" },
+            "minItems": 4,
+            "maxItems": 4,
+            "description": "[ymin, xmin, ymax, xmax] normalized coordinates"
+          }
+        }
+      }
+    },
+    "alternative_hypotheses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "name_en": { "type": "string" },
+          "name_ar": { "type": "string" },
+          "confidence": { "type": "number" }
+        }
+      }
+    },
+    "recommendations": {
+      "type": "object",
+      "properties": {
+        "cultural_practices_ar": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "cultural_practices_en": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "chemical_treatments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "active_ingredient": { "type": "string" },
+              "recommended_dosage": { "type": "string" },
+              "safety_period_phi_days": { "type": "integer" },
+              "rei_hours": { "type": "integer" },
+              "precautions_ar": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Overall aggregated calibrated confidence score"
+    },
+    "processing_time_ms": {
+      "type": "number",
+      "description": "Total round-trip latency in milliseconds"
+    },
+    "requires_expert_review": {
+      "type": "boolean",
+      "description": "Flag set if confidence is below safety threshold (<75%)"
+    }
+  },
+  "additionalProperties": false
+}

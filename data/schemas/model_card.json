@@ -1,0 +1,119 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AgriVisionModelCard",
+  "description": "Standardized Model Card specification for AgriVision AI models, based on Mitchell et al.",
+  "type": "object",
+  "required": [
+    "model_id",
+    "model_name",
+    "version",
+    "date",
+    "task_type",
+    "architecture",
+    "intended_use",
+    "performance_metrics",
+    "training_data",
+    "limitations_and_biases",
+    "license"
+  ],
+  "properties": {
+    "model_id": {
+      "type": "string",
+      "description": "Unique identifier (e.g., agrivision-resnet50-plant-v1)"
+    },
+    "model_name": {
+      "type": "string",
+      "description": "Human-readable model name"
+    },
+    "version": {
+      "type": "string",
+      "description": "Semantic release version"
+    },
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "Release date YYYY-MM-DD"
+    },
+    "task_type": {
+      "type": "string",
+      "enum": ["image_classification", "object_detection", "instance_segmentation", "ocr", "multimodal_fusion"]
+    },
+    "architecture": {
+      "type": "object",
+      "required": ["backbone", "framework", "input_resolution", "parameters_count_million"],
+      "properties": {
+        "backbone": { "type": "string" },
+        "framework": { "type": "string" },
+        "input_resolution": {
+          "type": "array",
+          "items": { "type": "integer" }
+        },
+        "parameters_count_million": { "type": "number" },
+        "quantization": { "type": "string" }
+      }
+    },
+    "intended_use": {
+      "type": "object",
+      "required": ["primary_use", "intended_users", "out_of_scope_uses"],
+      "properties": {
+        "primary_use": { "type": "string" },
+        "intended_users": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "out_of_scope_uses": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "performance_metrics": {
+      "type": "object",
+      "required": ["accuracy", "macro_f1", "inference_latency_ms"],
+      "properties": {
+        "accuracy": { "type": "number", "minimum": 0, "maximum": 1 },
+        "macro_f1": { "type": "number", "minimum": 0, "maximum": 1 },
+        "precision": { "type": "number" },
+        "recall": { "type": "number" },
+        "map_50": { "type": "number" },
+        "inference_latency_ms": { "type": "number" },
+        "tested_hardware": { "type": "string" }
+      }
+    },
+    "training_data": {
+      "type": "object",
+      "required": ["datasets_used", "total_samples_count", "preprocessing_steps"],
+      "properties": {
+        "datasets_used": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "total_samples_count": { "type": "integer" },
+        "split_ratio": { "type": "string" },
+        "preprocessing_steps": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "limitations_and_biases": {
+      "type": "object",
+      "required": ["known_limitations", "geographic_representation"],
+      "properties": {
+        "known_limitations": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "geographic_representation": { "type": "string" },
+        "edge_case_warnings": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "license": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

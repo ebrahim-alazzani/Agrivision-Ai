@@ -1,0 +1,54 @@
+name: agrivision_farmer
+description: "AgriVision Farmer Mobile Application - DevArchitect.IDE Clean Architecture"
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+
+  # DevArchitect.IDE Core: GetX State Management & Storage
+  get: ^4.6.6
+  get_storage: ^2.1.1
+  dartz: ^0.10.1
+  iconsax: ^0.0.8
+  equatable: ^2.0.7
+  path: ^1.9.1
+
+  # Networking & HTTP
+  dio: ^5.7.0
+  http: ^1.2.2
+  connectivity_plus: ^6.1.0
+
+  # Local Persistence & Hardware
+  sqflite: ^2.4.1
+  path_provider: ^2.1.5
+  camera: ^0.11.0+2
+  image_picker: ^1.1.2
+  photo_view: ^0.15.0
+  cached_network_image: ^3.4.1
+
+  # Charts & Formatting
+  fl_chart: ^0.69.2
+  intl: any
+  uuid: ^4.5.1
+  onnxruntime: ^1.4.1
+  image: ^4.13.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/icons/
+    - assets/models/

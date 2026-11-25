@@ -1,0 +1,200 @@
+[
+  {
+    "id": "ye-sn",
+    "name_ar": "أمانة العاصمة",
+    "name_en": "Sana'a City",
+    "latitude": 15.3694,
+    "longitude": 44.1910,
+    "major_agricultural_areas": ["بني الحارث", "الروضة", "شعوب"],
+    "agro_ecological_zone": "Central Highlands"
+  },
+  {
+    "id": "ye-sa",
+    "name_ar": "صنعاء",
+    "name_en": "Sana'a Governorate",
+    "latitude": 15.3547,
+    "longitude": 44.2066,
+    "major_agricultural_areas": ["بني حشيش (العنب)", "بني مطر (البن)", "الحيمة الداخلية والخارجية (البن والقات)", "خولان", "همدان", "أرحب"],
+    "agro_ecological_zone": "Central Highlands"
+  },
+  {
+    "id": "ye-ad",
+    "name_ar": "عدن",
+    "name_en": "Aden",
+    "latitude": 12.7855,
+    "longitude": 45.0187,
+    "major_agricultural_areas": ["دار سعد", "البريقة", "مزارع البساتين"],
+    "agro_ecological_zone": "Southern Coastal Plains"
+  },
+  {
+    "id": "ye-ta",
+    "name_ar": "تعز",
+    "name_en": "Taiz",
+    "latitude": 13.5795,
+    "longitude": 44.0209,
+    "major_agricultural_areas": ["المواسط", "المعافر", "موزع", "المخا", "صبر الموادم", "شرعب الرونة والسلام"],
+    "agro_ecological_zone": "Southern Uplands"
+  },
+  {
+    "id": "ye-hd",
+    "name_ar": "الحديدة",
+    "name_en": "Al Hudaydah",
+    "latitude": 14.7978,
+    "longitude": 42.9545,
+    "major_agricultural_areas": ["سهل تهامة الزراعي", "وادي زبيد", "وادي سهام", "وادي سردد", "بيت الفقيه", "باجل", "الضحى"],
+    "agro_ecological_zone": "Tihama Coastal Plains"
+  },
+  {
+    "id": "ye-ib",
+    "name_ar": "إب",
+    "name_en": "Ibb",
+    "latitude": 13.9667,
+    "longitude": 44.1833,
+    "major_agricultural_areas": ["وادي السحول الخصيب", "يريم", "ميتم", "العدين", "جبلة", "السدة", "النادرة"],
+    "agro_ecological_zone": "High Rainfall Southern Highlands"
+  },
+  {
+    "id": "ye-dh",
+    "name_ar": "ذمار",
+    "name_en": "Dhamar",
+    "latitude": 14.5427,
+    "longitude": 44.4051,
+    "major_agricultural_areas": ["قاع جهران (البطاطس والقمح)", "عنس", "ميفعة عنس", "الحداء", "وصاب العالي والسافل"],
+    "agro_ecological_zone": "Central Highlands Plateau"
+  },
+  {
+    "id": "ye-hm",
+    "name_ar": "حضرموت",
+    "name_en": "Hadhramaut",
+    "latitude": 15.9333,
+    "longitude": 49.1667,
+    "major_agricultural_areas": ["وادي حضرمot الرئيسي", "تريم", "سيئون (النخيل والبصل)", "القطن", "غيل باوزير (التبغ والحناء)", "وادي دوعن (السدر والقمح)"],
+    "agro_ecological_zone": "Eastern Valleys & Desert Oases"
+  },
+  {
+    "id": "ye-hj",
+    "name_ar": "حجة",
+    "name_en": "Hajjah",
+    "latitude": 15.6961,
+    "longitude": 43.6067,
+    "major_agricultural_areas": ["سهل عبس الزراعي (المانجو والسمسم)", "وادي مور", "حرض", "المحابشة (البن)", "مبين"],
+    "agro_ecological_zone": "North-Western Highlands & Tihama"
+  },
+  {
+    "id": "ye-sd",
+    "name_ar": "صعدة",
+    "name_en": "Sa'ada",
+    "latitude": 16.9400,
+    "longitude": 43.7639,
+    "major_agricultural_areas": ["سحار (الرمان والعنب)", "الصفراء", "حيدان", "رازح (البن والمدرجات)", "مجز", "باقم"],
+    "agro_ecological_zone": "Northern Highlands"
+  },
+  {
+    "id": "ye-am",
+    "name_ar": "عمران",
+    "name_en": "Amran",
+    "latitude": 15.6586,
+    "longitude": 43.9439,
+    "major_agricultural_areas": ["قاع البون (الحبوب والبطاطس)", "خمر", "ريدة", "حوث", "عيال سريح", "ظليمة حبور"],
+    "agro_ecological_zone": "Northern Highlands Plateau"
+  },
+  {
+    "id": "ye-mw",
+    "name_ar": "المحويت",
+    "name_en": "Al Mahwit",
+    "latitude": 15.4703,
+    "longitude": 43.5453,
+    "major_agricultural_areas": ["ملحان (البن والمدرجات)", "حفاش", "شبام كوكبان", "الرجم", "الطويلة"],
+    "agro_ecological_zone": "Western Escarpments"
+  },
+  {
+    "id": "ye-ry",
+    "name_ar": "ريمة",
+    "name_en": "Raymah",
+    "latitude": 14.6292,
+    "longitude": 43.7144,
+    "major_agricultural_areas": ["بلاد الطعام (البن والفواكه)", "الجبين", "كسمة", "السلفية", "مزهر"],
+    "agro_ecological_zone": "High-altitude Western Terraces"
+  },
+  {
+    "id": "ye-ba",
+    "name_ar": "البيضاء",
+    "name_en": "Al Bayda",
+    "latitude": 13.9852,
+    "longitude": 45.5727,
+    "major_agricultural_areas": ["رداع (العنب والخضار)", "مكيراس", "السوادية", "ولد ربيع", "الزاهر"],
+    "agro_ecological_zone": "Central-Eastern Highlands"
+  },
+  {
+    "id": "ye-mr",
+    "name_ar": "مأرب",
+    "name_en": "Marib",
+    "latitude": 15.4542,
+    "longitude": 45.3267,
+    "major_agricultural_areas": ["وادي عبيدة (الحمضيات والقمح والسمسم)", "صرواح", "حريب", "الجوبة", "حوض سد مأرب"],
+    "agro_ecological_zone": "Eastern Arid & Irrigated Basin"
+  },
+  {
+    "id": "ye-jw",
+    "name_ar": "الجوف",
+    "name_en": "Al Jawf",
+    "latitude": 16.5000,
+    "longitude": 45.5000,
+    "major_agricultural_areas": ["وادي الخارد", "خب والشعف (الحبوب والقمح المروي)", "الحزم", "المتون", "برط العنان"],
+    "agro_ecological_zone": "Semi-Arid Alluvial Plains"
+  },
+  {
+    "id": "ye-sh",
+    "name_ar": "شبوة",
+    "name_en": "Shabwah",
+    "latitude": 14.5333,
+    "longitude": 46.8333,
+    "major_agricultural_areas": ["وادي بيحان (الحبوب والبلح)", "عتق", "ميفعة", "حبان", "نصاب"],
+    "agro_ecological_zone": "Eastern Escarpment Valleys"
+  },
+  {
+    "id": "ye-ab",
+    "name_ar": "أبين",
+    "name_en": "Abyan",
+    "latitude": 13.5833,
+    "longitude": 45.7500,
+    "major_agricultural_areas": ["دلتا أبين الزراعي (القطن والموز والمانجو)", "خنفر", "زنجبار", "لودر", "مودية", "أحور"],
+    "agro_ecological_zone": "Southern Coastal Delta"
+  },
+  {
+    "id": "ye-la",
+    "name_ar": "لحج",
+    "name_en": "Lahij",
+    "latitude": 13.1667,
+    "longitude": 44.8833,
+    "major_agricultural_areas": ["دلتا تبن (المانجو والفل والخضار)", "الحوطة", "طور الباحة", "يافع (البن)", "القبيطة"],
+    "agro_ecological_zone": "Southern Coastal Delta & Uplands"
+  },
+  {
+    "id": "ye-mh",
+    "name_ar": "المهرة",
+    "name_en": "Al Mahrah",
+    "latitude": 16.5000,
+    "longitude": 51.5000,
+    "major_agricultural_areas": ["وادي الجزع", "حوف (الغابات المطرية الرطبة)", "الغيضة", "سيحوت", "قشن"],
+    "agro_ecological_zone": "Eastern Monsoon Coastal & Valleys"
+  },
+  {
+    "id": "ye-sc",
+    "name_ar": "أرخبيل سقطرى",
+    "name_en": "Socotra Archipelago",
+    "latitude": 12.4634,
+    "longitude": 53.8237,
+    "major_agricultural_areas": ["حديبو", "قلنسية", "مرتفعات حجهر", "واحات النخيل"],
+    "agro_ecological_zone": "Island Endemic Agro-Ecosystem"
+  },
+  {
+    "id": "ye-da",
+    "name_ar": "الضالع",
+    "name_en": "Ad Dali'",
+    "latitude": 13.6958,
+    "longitude": 44.7314,
+    "major_agricultural_areas": ["دمت (الحبوب والخضار)", "قعطبة", "الحصين", "جبن", "الشعيب"],
+    "agro_ecological_zone": "Southern Highlands Plateau"
+  }
+]

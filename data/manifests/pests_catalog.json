@@ -1,0 +1,88 @@
+[
+  {
+    "id": "pest-tuta-absoluta",
+    "name_ar": "توتا أبسلوتا (حافرة أنفاق الطماطم)",
+    "name_en": "Tomato Leafminer",
+    "scientific_name": "Tuta absoluta",
+    "pest_family": "Gelechiidae (Lepidoptera)",
+    "affected_crops": ["crop-tomato", "crop-potato"],
+    "visual_features_ar": "يرقات صغيرة (0.5 إلى 8 مم) لونها أبيض مائل للصفرة يتحول إلى الوردي الفاتح، تتغذى داخل نسيج الورقة صانعة أنفاقاً وبقعاً شفافة عريضة خالية من النسيج الخضري مع تراكم براز داكن أسود داخل النفق. الفراشة البالغة رمادية فضية بنية ذات قرون استشعار خيطية طويلة.",
+    "visual_features_en": "Cylindrical larvae (0.5-8 mm) whitish to pinkish inside broad transparent leaf mines with visible black frass deposits. Adults are small silvery-brown moths with filiform antennae.",
+    "seasonal_patterns": "تنشط طوال فصول السنة وتتكاثر بسرعة في فترات الدفء والجفاف؛ ذروة الإصابة في الخريف وبداية الصيف داخل البيوت المحمية والحقول المكشوفة.",
+    "economic_threshold": "وجود 1 - 2 يرقة حية لكل نبتة أو اصطياد أكثر من 30 فراشة أسبوعياً في المصيدة الفيرمونية",
+    "recommended_ipm": [
+      "نصب المصائد الفيرمونية المائية للرصد والمكافحة الجماهيرية",
+      "إزالة وحرق الأوراق والثمار المصابة دورياً",
+      "الرش بمستخلصات النيم (Azadirachtin) أو باكتيريا Bacillus thuringiensis",
+      "المبيدات المتخصصة عند تخطي العتبة: Chlorantraniliprole أو Emamectin Benzoate"
+    ]
+  },
+  {
+    "id": "pest-whitefly",
+    "name_ar": "الذبابة البيضاء",
+    "name_en": "Silverleaf Whitefly",
+    "scientific_name": "Bemisia tabaci",
+    "pest_family": "Aleyrodidae (Hemiptera)",
+    "affected_crops": ["crop-tomato", "crop-potato", "crop-qat", "crop-mango"],
+    "visual_features_ar": "حشرات صغيرة دقيقة بطول 1 مم، أجنحتها مغطاة بمسحوق شمعي أبيض ناصع ترفرف بكثافة كالسحب الدقيقة عند هز أوراق النبات. تتواجد الحوريات والبيض على السطح السفلي للأوراق مصاحبة بإفرازات ندية سكرية ونمو العفن الأسود السخامي.",
+    "visual_features_en": "Tiny 1 mm sap-sucking insects with powdery white wings held roof-like over the yellow body. Nymphs appear as flat translucent scales on leaf undersides with sticky honeydew exudates.",
+    "seasonal_patterns": "تصل ذروة التكاثر في أواخر الربيع ومواسم الصيف والخريف عند انخفاض الرطوبة النسبية وارتفاع درجات الحرارة بين 26 و35 مئوية.",
+    "economic_threshold": "مشاهدة 3 - 5 أفراد بالغة على الأوراق الغضة للقمة النامية",
+    "recommended_ipm": [
+      "استخدام المصائد الصفراء اللاصقة بارتفاع مستوى قمم النباتات",
+      "استخدام الزيوت المعدنية الصيفية أو صابون البوتاسيوم الزراعي",
+      "الرش بمبيد الأسيتامبريد (Acetamiprid) أو بيمتروزين (Pymetrozine)"
+    ]
+  },
+  {
+    "id": "pest-aphids",
+    "name_ar": "حشرات المن (قملة النبات)",
+    "name_en": "Aphids / Plant Lice",
+    "scientific_name": "Aphis gossypii / Myzus persicae",
+    "pest_family": "Aphididae (Hemiptera)",
+    "affected_crops": ["crop-tomato", "crop-potato", "crop-wheat", "crop-qat", "crop-grape"],
+    "visual_features_ar": "مستعمرات كثيفة من حشرات لينة الجسم كمثرية الشكل، يتراوح لونها بين الأخضر الفاتح والأسود والأصفر. تمتص العصارة النباتية وتسبب تجعد والتواء الأوراق النامية وتوقف نمو القمم.",
+    "visual_features_en": "Dense colonies of soft pear-shaped, green, black, or yellow insects congregated on young tender shoot tips, causing leaf distortion and curled vegetative margins.",
+    "seasonal_patterns": "تنشط بكثافة في فصلي الربيع والخريف مع نمو الطرود النباتية الغضة وتعتدل درجات الحرارة.",
+    "economic_threshold": "إصابة 10% من القمم النامية أو البراعم الزهرية",
+    "recommended_ipm": [
+      "حماية وتشجيع المفترسات الطبيعية مثل أسد المن وخنافس أبو العيد (Coccinellidae)",
+      "غسيل النباتات برذاذ ماء خفيف مع زيت النيم الزراعي",
+      "المكافحة الكيميائية المستهدفة بمبيدات الإيميداكلوبريد أو سبيروكسامين"
+    ]
+  },
+  {
+    "id": "pest-coffee-borer",
+    "name_ar": "خنفساء حفار ثمار البن",
+    "name_en": "Coffee Berry Borer",
+    "scientific_name": "Hypothenemus hampei",
+    "pest_family": "Curculionidae (Coleoptera)",
+    "affected_crops": ["crop-coffee"],
+    "visual_features_ar": "خنفساء سوداء أسطوانية متناهية الصغر (1.5 إلى 2 مم). العلامة التشخيصية الحاسمة هي وجود ثقب دائري دقيق عند قرص التويج في قمة حبة البن الخضراء أو الحمراء مع وجود مسحوق حبوب مجروشة حول الثقب.",
+    "visual_features_en": "Minute dark cylindrical beetle (1.5-2 mm). Distinctive diagnostic round entry hole bored at the disc of the coffee berry tip, destroying beans internally.",
+    "seasonal_patterns": "تخرج الإناث البالغة لمهاجمة الثمار عند بدء تصلب وتماسك النواة بعد موسم الأمطار الصيفية وخلال نضج الحبوب من سبتمبر إلى ديسمبر.",
+    "economic_threshold": "تجاوز نسبة إصابة الثمار 5% في العينة العشوائية",
+    "recommended_ipm": [
+      "الحصاد النظيف الكامل (الخراط) وجمع كافة الحبوب المتساقطة على الأرض وحرقها لقطع دورة الحياة",
+      "استخدام مصائد الرائحة الكحولية (مزيج ميثانول وإيثانول 1:3)",
+      "المكافحة الحيوية بفطر بوفيريا باسيانا (Beauveria bassiana)"
+    ]
+  },
+  {
+    "id": "pest-red-palm-weevil",
+    "name_ar": "سوسة النخيل الحمراء",
+    "name_en": "Red Palm Weevil",
+    "scientific_name": "Rhynchophorus ferrugineus",
+    "pest_family": "Curculionidae (Coleoptera)",
+    "affected_crops": ["crop-datepalm"],
+    "visual_features_ar": "حشرة كاملة كبيرة الحجم (3 - 4 سم) بنية صدئة محمرة مع خرطوم طويل منحنٍ ونقاط سوداء على الصدر. يرقاتها سمينة صفراء عديمة الأرجل تحفر أنفاقاً عميقة داخل جذع النخلة مخلفة سائلاً بنياً لزجاً ذا رائحة تخمر حادة ونشارة خشبية عند فتحات الأنفاق.",
+    "visual_features_en": "Large reddish-brown snout beetle (3-4 cm). Creamy legless grubs tunnel extensively within the trunk, producing fermented brown viscous oozing and chewed fibrous frass.",
+    "seasonal_patterns": "تتكاثر وتنشط طوال أشهر العام، وتتزايد أعدادها في الربيع وبداية الصيف عند فصل الفسائل وتلقيح النخيل.",
+    "economic_threshold": "حشرة واحدة تمثل خطراً يوجب الحجر الزراعي الفوري والمعالجة الموضعية",
+    "recommended_ipm": [
+      "تجنب إحداث جروح في جذوع النخيل ومعالجة أماكن القطع بمركبات الكبريت والنحاس",
+      "المصائد الفيرمونية الكيرومونية الاستكشافية في مزارع حضرموت والحديدة",
+      "الحقن الموضعي للجذع بمبيدات فوسفيد الألومنيوم أو المحاليل المبيدة بضغط عالي تحت إشراف وزارة الزراعة"
+    ]
+  }
+]

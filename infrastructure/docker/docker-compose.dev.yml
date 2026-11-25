@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ../..
+      dockerfile: infrastructure/docker/Dockerfile.backend
+    volumes:
+      - ../../backend:/app/backend:ro
+      - ../../data/manifests:/app/data/manifests:ro
+    environment:
+      DEBUG: "True"
+      RELOAD: "True"
+    command: ["uvicorn", "backend.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+
+  ai-service:
+    build:
+      context: ../..
+      dockerfile: infrastructure/docker/Dockerfile.ai
+    volumes:
+      - ../../ai:/app/ai:ro
+      - ../../data:/app/data:ro
+    environment:
+      DEBUG: "True"
+    command: ["uvicorn", "ai.service.main:app", "--host", "0.0.0.0", "--port", "8001", "--reload"]
+
+  postgres:
+    ports:
+      - "5432:5432"
+
+  redis:
+    ports:
+      - "6379:6379"
+
+  minio:
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+
+  mlflow:
+    ports:
+      - "5000:5000"

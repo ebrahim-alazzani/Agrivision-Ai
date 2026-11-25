@@ -1,0 +1,91 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AgriVisionSampleMetadata",
+  "description": "Standard schema for individual image samples across AgriVision AI training datasets and field registries",
+  "type": "object",
+  "required": [
+    "sample_id",
+    "crop_id",
+    "image_path",
+    "capture_date",
+    "growth_stage",
+    "annotation_status",
+    "source",
+    "license",
+    "dataset_version"
+  ],
+  "properties": {
+    "sample_id": {
+      "type": "string",
+      "description": "Unique immutable identifier for this image sample (e.g., SAM-2026-YE-00194)"
+    },
+    "crop_id": {
+      "type": "string",
+      "description": "Canonical crop identifier matching supported_crops.json (e.g. crop-tomato, crop-potato)"
+    },
+    "disease_id": {
+      "type": ["string", "null"],
+      "description": "Canonical disease identifier matching diseases_catalog.json, or null if healthy"
+    },
+    "pest_id": {
+      "type": ["string", "null"],
+      "description": "Canonical pest identifier matching pests_catalog.json, or null if no pest infestation"
+    },
+    "image_path": {
+      "type": "string",
+      "description": "Relative storage path or S3 key to the original high-resolution image file"
+    },
+    "capture_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date of field capture in YYYY-MM-DD format"
+    },
+    "governorate_id": {
+      "type": ["string", "null"],
+      "description": "Yemeni governorate ID matching yemen_governorates.json (e.g. ye-sa, ye-dh)"
+    },
+    "district_id": {
+      "type": ["string", "null"],
+      "description": "Sub-governorate administrative district or wadi name"
+    },
+    "farm_id": {
+      "type": ["string", "null"],
+      "description": "Associated anonymized farm UUID if collected from a registered farm"
+    },
+    "growth_stage": {
+      "type": "string",
+      "description": "Growth stage at time of observation (e.g. seedling, vegetative, flowering, fruiting, harvest)"
+    },
+    "severity_label": {
+      "type": ["string", "null"],
+      "enum": ["healthy", "low", "medium", "high", "severe", null],
+      "description": "Pathology or infestation severity category"
+    },
+    "annotation_status": {
+      "type": "string",
+      "enum": ["unverified", "annotated", "reviewed", "expert_validated", "rejected"],
+      "description": "Quality assurance and verification state of ground-truth labels"
+    },
+    "annotator_id": {
+      "type": ["string", "null"],
+      "description": "Identifier or UUID of the researcher or annotator who labeled the image"
+    },
+    "reviewer_id": {
+      "type": ["string", "null"],
+      "description": "Identifier or UUID of the senior agronomist who validated the annotation"
+    },
+    "source": {
+      "type": "string",
+      "description": "Origin of the sample (e.g. yemen_field_survey_2026, plantvillage, plantdoc, academic_partner)"
+    },
+    "license": {
+      "type": "string",
+      "description": "Open source or proprietary data usage license terms (e.g. CC-BY-4.0)"
+    },
+    "dataset_version": {
+      "type": "string",
+      "description": "Semantic release version of the dataset release (e.g. v1.2.0)"
+    }
+  },
+  "additionalProperties": false
+}
