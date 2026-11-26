@@ -1,171 +1,114 @@
-#!/usr/bin/env python3
-"""
-AgriVision AI - Model Export Tool (PyTorch to ONNX)
-Exports trained PyTorch vision models into optimized ONNX runtime format for cross-platform edge and server inference.
-"""
+"""Export a reviewed checkpoint to ONNX and verify PyTorch/ORT parity.
 
+This script deliberately refuses placeholder models and missing checkpoints.
+"""
 import argparse
-import os
-import sys
+import json
 from pathlib import Path
-from typing import Tuple
 
-try:
-    import torch
-    import torch.nn as nn
-    from torchvision import models
-    PYTORCH_AVAILABLE = True
-except ImportError:
-    PYTORCH_AVAILABLE = False
-
-try:
-    import onnx
-    import onnxruntime as ort
-    ONNX_AVAILABLE = True
-except ImportError:
-    ONNX_AVAILABLE = False
+import numpy as np
+import torch
+import torch.nn as nn
+from torchvision import models
 
 
-def build_exportable_model(model_name: str, num_classes: int) -> torch.nn.Module:
-    """Build PyTorch model architecture for export."""
-    if model_name.lower() == "resnet50":
+def build_model(name: str, count: int) -> nn.Module:
+    if count < 2:
+        raise ValueError("num_classes must be at least 2")
+    if name.lower() == "resnet50":
         model = models.resnet50(weights=None)
-        in_features = model.fc.in_features
-        model.fc = nn.Sequential(
-            nn.Dropout(0.3),
-            nn.Linear(in_features, num_classes)
-        )
-        return model
-    elif model_name.lower() == "mobilenet_v3_large":
+        model.fc = nn.Sequential(nn.Dropout(0.3), nn.Linear(model.fc.in_features, count))
+    elif name.lower() == "mobilenet_v3_large":
         model = models.mobilenet_v3_large(weights=None)
-        model.classifier[3] = nn.Linear(model.classifier[3].in_features, num_classes)
-        return model
+        in_features = model.classifier[0].in_features
+        model.classifier = nn.Sequential(
+            nn.Linear(in_features, 512), nn.BatchNorm1d(512), nn.Hardswish(inplace=True),
+            nn.Dropout(p=0.3), nn.Linear(512, count),
+        )
     else:
-        raise ValueError(f"Unsupported model architecture: {model_name}")
+        raise ValueError(f"Unsupported architecture: {name}")
+    return model
 
 
-def export_to_onnx(
-    model_name: str,
-    checkpoint_path: Path,
-    output_path: Path,
-    num_classes: int = 10,
-    image_size: int = 224,
-    opset_version: int = 14,
-):
-    """Export PyTorch checkpoint or base model into ONNX format."""
-    print("=" * 60)
-    print("          AgriVision AI - ONNX Model Exporter             ")
-    print("=" * 60)
-    print(f"[*] Architecture    : {model_name}")
-    print(f"[*] Classes         : {num_classes}")
-    print(f"[*] Input Resolution: 1x3x{image_size}x{image_size}")
-    print(f"[*] Target File     : {output_path}")
+def export(model_name: str, checkpoint: Path, destination: Path, count: int,
+           image_size: int, opset: int, max_abs_error: float) -> None:
+    if not checkpoint.is_file():
+        raise FileNotFoundError(f"Refusing to export without a trained checkpoint: {checkpoint}")
+    try:
+        import onnx
+        import onnxruntime as ort
+    except ImportError as exc:
+        raise RuntimeError("Install both onnx and onnxruntime to validate the export") from exc
 
-    if not PYTORCH_AVAILABLE:
-        print("[!] PyTorch is not available. Creating placeholder ONNX model file...")
-        output_path.parent.mkdir(parents=True, exist_ok=True)
-        with open(output_path, "wb") as f:
-            f.write(b"ONNX_MODEL_BINARY_STUB_AGRIVISION_AI")
-        print(f"[+] Output written to: {output_path}")
-        return
+    payload = torch.load(checkpoint, map_location="cpu", weights_only=True)
+    state = payload.get("model_state_dict", payload) if isinstance(payload, dict) else payload
+    if not isinstance(state, dict) or not state:
+        raise ValueError("Checkpoint does not contain a model state dictionary")
+    declared = payload.get("num_classes") if isinstance(payload, dict) else None
+    if declared is not None and int(declared) != count:
+        raise ValueError(f"Checkpoint has {declared} classes but --num-classes is {count}")
+    class_map = payload.get("class_to_idx") if isinstance(payload, dict) else None
+    if not isinstance(class_map, dict) or len(class_map) != count:
+        raise ValueError("Checkpoint must include a class_to_idx map matching --num-classes")
+    class_map = {str(label): int(index) for label, index in class_map.items()}
+    if sorted(class_map.values()) != list(range(count)):
+        raise ValueError("Checkpoint class_to_idx must map labels bijectively to 0..num_classes-1")
 
-    model = build_exportable_model(model_name, num_classes)
-
-    if checkpoint_path.is_file():
-        print(f"[*] Loading weights from: {checkpoint_path}")
-        ckpt = torch.load(checkpoint_path, map_location="cpu")
-        state_dict = ckpt.get("model_state_dict", ckpt)
-        model.load_state_dict(state_dict)
-    else:
-        print(f"[!] Warning: Checkpoint {checkpoint_path} not found. Exporting uninitialized architecture.")
-
+    model = build_model(model_name, count)
+    try:
+        model.load_state_dict(state, strict=True)
+    except RuntimeError as exc:
+        raise ValueError("Checkpoint architecture/head does not match the selected exporter") from exc
     model.eval()
 
-    dummy_input = torch.randn(1, 3, image_size, image_size, requires_grad=False)
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-
-    input_names = ["input_image"]
-    output_names = ["class_probabilities"]
-    dynamic_axes = {
-        "input_image": {0: "batch_size"},
-        "class_probabilities": {0: "batch_size"}
-    }
-
-    print(f"[*] Exporting graph with opset_version={opset_version}...")
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    sample = torch.randn(1, 3, image_size, image_size, dtype=torch.float32)
+    with torch.inference_mode():
+        expected = model(sample).cpu().numpy()
     torch.onnx.export(
-        model,
-        dummy_input,
-        str(output_path),
-        export_params=True,
-        opset_version=opset_version,
-        do_constant_folding=True,
-        input_names=input_names,
-        output_names=output_names,
-        dynamic_axes=dynamic_axes
+        model, sample, str(destination), export_params=True, opset_version=opset,
+        do_constant_folding=True, input_names=["input"], output_names=["logits"],
+        dynamic_axes={"input": {0: "batch"}, "logits": {0: "batch"}},
     )
+    graph = onnx.load(str(destination))
+    onnx.checker.check_model(graph)
+    session = ort.InferenceSession(str(destination), providers=["CPUExecutionProvider"])
+    inputs = session.get_inputs()
+    outputs = session.get_outputs()
+    if len(inputs) != 1 or inputs[0].name != "input" or inputs[0].type != "tensor(float)":
+        raise ValueError("Unexpected ONNX input contract")
+    if len(outputs) != 1 or outputs[0].name != "logits":
+        raise ValueError("Unexpected ONNX output contract")
+    actual = session.run(["logits"], {"input": sample.numpy()})[0]
+    if actual.shape != (1, count) or not np.isfinite(actual).all():
+        raise ValueError(f"Invalid ONNX output shape or non-finite values: {actual.shape}")
+    error = float(np.max(np.abs(expected - actual)))
+    if error > max_abs_error:
+        raise ValueError(f"PyTorch/ONNX parity failed: max abs error={error:.8g} > {max_abs_error}")
+    label_map = {
+        "num_classes": count,
+        "class_to_idx": class_map,
+        "idx_to_class": {str(index): label for label, index in class_map.items()},
+        "arabic_labels": payload.get("arabic_labels", {}),
+    }
+    destination.with_name("class_indices.json").write_text(
+        json.dumps(label_map, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
+    print(f"Export verified: {destination} | classes={count} | max_abs_error={error:.8g}")
 
-    print(f"[+] Successfully exported ONNX model to: {output_path}")
 
-    if ONNX_AVAILABLE:
-        print("[*] Validating exported ONNX graph integrity...")
-        onnx_model = onnx.load(str(output_path))
-        onnx.checker.check_model(onnx_model)
-        print("[+] ONNX model checker passed successfully!")
-
-        session = ort.InferenceSession(str(output_path))
-        inputs = {session.get_inputs()[0].name: dummy_input.numpy()}
-        outputs = session.run(None, inputs)
-        print(f"[+] Test inference pass completed. Output tensor shape: {outputs[0].shape}")
-
-
-def main():
-    parser = argparse.ArgumentParser(description="AgriVision AI - Export PyTorch to ONNX")
-    parser.add_argument(
-        "--model",
-        type=str,
-        default="resnet50",
-        help="Model architecture name (resnet50, mobilenet_v3_large)",
-    )
-    parser.add_argument(
-        "--checkpoint",
-        type=Path,
-        default=Path("ai/weights/resnet50_best.pt"),
-        help="Path to trained PyTorch .pt checkpoint",
-    )
-    parser.add_argument(
-        "--output",
-        type=Path,
-        default=Path("ai/weights/plant_disease_resnet50.onnx"),
-        help="Destination path for .onnx file",
-    )
-    parser.add_argument(
-        "--num-classes",
-        type=int,
-        default=10,
-        help="Number of classification categories",
-    )
-    parser.add_argument(
-        "--image-size",
-        type=int,
-        default=224,
-        help="Square input image dimension (e.g. 224)",
-    )
-    parser.add_argument(
-        "--opset",
-        type=int,
-        default=14,
-        help="ONNX opset version",
-    )
-
+def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--model", choices=["resnet50", "mobilenet_v3_large"], default="mobilenet_v3_large")
+    parser.add_argument("--checkpoint", type=Path, required=True)
+    parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--num-classes", type=int, required=True)
+    parser.add_argument("--image-size", type=int, default=224)
+    parser.add_argument("--opset", type=int, default=17)
+    parser.add_argument("--max-abs-error", type=float, default=1e-4)
     args = parser.parse_args()
-    export_to_onnx(
-        model_name=args.model,
-        checkpoint_path=args.checkpoint,
-        output_path=args.output,
-        num_classes=args.num_classes,
-        image_size=args.image_size,
-        opset_version=args.opset,
-    )
+    export(args.model, args.checkpoint, args.output, args.num_classes,
+           args.image_size, args.opset, args.max_abs_error)
 
 
 if __name__ == "__main__":

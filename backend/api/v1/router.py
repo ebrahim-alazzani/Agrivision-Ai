@@ -3,6 +3,7 @@
 from fastapi import APIRouter
 
 from backend.api.v1.endpoints import (
+    admin,
     analysis,
     auth,
     crops,
@@ -20,6 +21,7 @@ from backend.api.v1.endpoints import (
 )
 
 api_router = APIRouter()
+api_router.include_router(admin.router)
 
 # Core Farmers & Agronomists API
 api_router.include_router(auth.router)

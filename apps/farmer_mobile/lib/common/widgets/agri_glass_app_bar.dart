@@ -21,7 +21,7 @@ class AgriGlassAppBar extends StatelessWidget implements PreferredSizeWidget {
   });
 
   @override
-  Size get preferredSize => const Size.fromHeight(76);
+  Size get preferredSize => const Size.fromHeight(88);
 
   @override
   Widget build(BuildContext context) {

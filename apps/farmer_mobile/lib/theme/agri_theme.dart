@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'agri_colors.dart';
 
 class AgriThemeController extends GetxController {
@@ -51,7 +50,7 @@ class AgriTheme {
 
   static ThemeData get darkTheme {
     final base = ThemeData.dark(useMaterial3: true);
-    final cairoTextTheme = GoogleFonts.cairoTextTheme(base.textTheme).apply(
+    final cairoTextTheme = base.textTheme.apply(fontFamily: 'sans-serif').apply(
       bodyColor: AgriColors.darkText,
       displayColor: AgriColors.darkText,
     );
@@ -74,7 +73,7 @@ class AgriTheme {
         elevation: 0,
         backgroundColor: Colors.transparent,
         centerTitle: true,
-        titleTextStyle: GoogleFonts.cairo(
+        titleTextStyle: const TextStyle(
           color: AgriColors.darkText,
           fontSize: 18,
           fontWeight: FontWeight.w800,
@@ -86,7 +85,7 @@ class AgriTheme {
 
   static ThemeData get lightTheme {
     final base = ThemeData.light(useMaterial3: true);
-    final cairoTextTheme = GoogleFonts.cairoTextTheme(base.textTheme).apply(
+    final cairoTextTheme = base.textTheme.apply(fontFamily: 'sans-serif').apply(
       bodyColor: AgriColors.lightText,
       displayColor: AgriColors.lightText,
     );
@@ -109,7 +108,7 @@ class AgriTheme {
         elevation: 0,
         backgroundColor: Colors.transparent,
         centerTitle: true,
-        titleTextStyle: GoogleFonts.cairo(
+        titleTextStyle: const TextStyle(
           color: AgriColors.lightText,
           fontSize: 18,
           fontWeight: FontWeight.w800,

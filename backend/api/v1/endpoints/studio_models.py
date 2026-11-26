@@ -7,7 +7,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from backend.api.deps import get_current_user
+from backend.api.deps import get_current_active_admin, get_current_user
 from backend.domain.enums import ModelStatus
 from backend.domain.models import ModelDeployment, ModelVersion, User
 from backend.domain.schemas import (
@@ -43,6 +43,8 @@ async def get_model(
     model = await db.get(ModelVersion, model_id)
     if not model:
         raise HTTPException(status_code=404, detail="Model version not found")
+    if model.status != ModelStatus.READY:
+        raise HTTPException(status_code=409, detail="Only validated READY models can be deployed")
     return model
 
 
@@ -50,7 +52,7 @@ async def get_model(
 async def deploy_model(
     model_id: uuid.UUID,
     req: ModelDeploymentRequest,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_current_active_admin),
     db: AsyncSession = Depends(get_db_session),
 ):
     """Deploy model version to target environment (server/mobile/edge)."""
@@ -76,7 +78,7 @@ async def deploy_model(
 @router.post("/{model_id}/rollback", response_model=ModelDeploymentResponse)
 async def rollback_model(
     model_id: uuid.UUID,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_current_active_admin),
     db: AsyncSession = Depends(get_db_session),
 ):
     """Roll back an active model deployment."""
