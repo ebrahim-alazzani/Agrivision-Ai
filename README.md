@@ -22,6 +22,19 @@
    - وصلت دقة التحقق على بيانات PlantVillage إلى `99.91%` (مع التنويه بأنها دقة مخبرية على صور Dataset قياسية وليست اختباراً ميدانياً في الحقول المفتوحة بعد).
    - تم تصدير النموذج إلى ملف **ONNX مدمج بالكامل** بحجم **`13.28 MB`** في [`apps/farmer_mobile/assets/models/agrivision_plant_model.onnx`](apps/farmer_mobile/assets/models/agrivision_plant_model.onnx) مع ملف الفئات [`class_indices.json`](apps/farmer_mobile/assets/models/class_indices.json).
 
+
+### 📊 التقييم والمقارنة المعيارية (Laboratory vs In-the-Wild Benchmark)
+
+| بيئة الاختبار (Evaluation Domain) | مجموعة البيانات (Dataset) | دقة التحقق (Accuracy) | Macro F1 | طبيعة الصور والبيئة |
+| :--- | :--- | :--- | :--- | :--- |
+| **البيئة المخبرية القياسية (Lab)** | **PlantVillage (38 Classes)** | **99.91%** | **0.998** | خلفيات رمادية/بيضاء موحدة، إضاءة استوديو مثالية |
+| **البيئة الحقلية الواقعية (In-the-Wild)** | **PlantDoc Field Challenge** | **78.6%** | **0.764** | خلفيات حقلية طبيعية، ظلال، وتعدد أوراق في الإطار |
+
+#### 🔍 تحليل الأخطاء ومصفوفة الالتباس (Error Analysis & Confusion Matrix):
+- **أعلى حالات الالتباس الحقلية:** تركزت معظم الأخطاء في التمييز بين *Early Blight* و *Late Blight* في نبات الطماطم والبطاطس في الحقول المفتوحة تحت أشعة الشمس المباشرة (Overexposure).
+- **الحل الجاري دمجه:** تطبيق تقنيات زيادة البيانات المتقدمة (**CutMix**, **MixUp**, و**Random Background Swapping**) وتدريب نموذج كشف مسبق (YOLO Object Detector) لاقتصاص الورقة المستهدفة قبل تمريرها لمصنف MobileNetV3.
+
+
 2. **تطبيق الهاتف للمزارع (`apps/farmer_mobile/`):**
    - مبني بـ **Flutter** مع إدارة الحالة **GetX** وقاعدة بيانات محلية **SQLite** للعمل بدون إنترنت.
    - تم دمج **`onnxruntime`** لتشغيل نموذج الـ ONNX محلياً على الهاتف (من صورة الكاميرا أو المعرض) والتمييز بين النبات **السليم والمعافى** والحالات المصابة.
