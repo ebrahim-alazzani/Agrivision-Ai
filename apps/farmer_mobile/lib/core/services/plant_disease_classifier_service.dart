@@ -140,10 +140,67 @@ class PlantDiseaseClassifierService {
     }
 
     final rawClassName = _idxToClass[bestIndex] ?? 'Tomato___healthy';
-    return _buildDiagnosis(rawClassName, maxProb);
+
+    // جمع أعلى 3 احتمالات
+    final sortedIndices = List<int>.generate(probabilities.length, (i) => i)
+      ..sort((a, b) => probabilities[b].compareTo(probabilities[a]));
+    final Map<String, double> top3 = {};
+    for (int i = 0; i < math.min(3, sortedIndices.length); i++) {
+      final idx = sortedIndices[i];
+      final name = _idxToClass[idx] ?? 'Unknown_$idx';
+      top3[name] = probabilities[idx];
+    }
+
+    return _buildDiagnosis(rawClassName, maxProb, top3);
   }
 
-  PlantDiagnosisResult _buildDiagnosis(String rawClassName, double confidence) {
+  PlantDiagnosisResult _buildDiagnosis(
+    String rawClassName,
+    double confidence,
+    Map<String, double> top3Classes,
+  ) {
+    // 1. فحص الفئة السالبة: إذا تم تصنيف الصورة كخلفية أو غير نبات
+    if (rawClassName == 'Background_Without_Leaves' ||
+        rawClassName.toLowerCase().contains('background') ||
+        rawClassName.toLowerCase().contains('non_plant')) {
+      return PlantDiagnosisResult(
+        rawClassName: rawClassName,
+        cropNameArabic: 'غير محدد',
+        diseaseNameArabic: 'الصورة لا تحتوي على ورقة نباتية واضحة',
+        isHealthy: false,
+        confidence: confidence,
+        severity: 'non_plant',
+        symptoms:
+            'تم رصد خلفية سالبة أو أثاث أو بيئة لا تحتوي على ورقة نباتية قابلة للتشخيص.',
+        recommendations: const [
+          'يرجى توجيه الكاميرا مباشرة نحو ورقة النبات المستهدف.',
+          'تأكد من وضوح الورقة في منتصف الإطار وإضاءة كافية.',
+          'تجنب تصوير الغرف أو الأشياء البعيدة.',
+        ],
+        topClasses: top3Classes,
+      );
+    }
+
+    // 2. فحص عتبة الثقة (Confidence Threshold < 70%): رفض النتائج المبهمة
+    if (confidence < 0.70) {
+      return PlantDiagnosisResult(
+        rawClassName: rawClassName,
+        cropNameArabic: 'غير مؤكد',
+        diseaseNameArabic: 'تشخيص غير مؤكد (عتبة الثقة منخفضة)',
+        isHealthy: false,
+        confidence: confidence,
+        severity: 'uncertain',
+        symptoms:
+            'نسبة الثقة أقل من 70%. قد تكون الصورة مشوشة أو مائلة أو نوع النبات غير مدعوم بدقة.',
+        recommendations: const [
+          'إعادة التقاط صورة أقرب للورقة بزاوية عمودية.',
+          'التحقق من عدم وجود اهتزاز أثناء التصوير وتجنب الظلال الشديدة.',
+          'مراجعة المرشد الزراعي المحلي في حال استمرار الشك.',
+        ],
+        topClasses: top3Classes,
+      );
+    }
+
     final parts = rawClassName.split('___');
     final cropEng = parts.first;
     final conditionEng = parts.length > 1 ? parts[1] : 'healthy';
@@ -166,7 +223,7 @@ class PlantDiseaseClassifierService {
           'الحفاظ على تهوية جيدة بين النباتات.',
           'الاستمرار في الفحص الدوري للوقاية المبكرة.',
         ],
-        topClasses: {rawClassName: confidence},
+        topClasses: top3Classes,
       );
     }
 
@@ -182,7 +239,7 @@ class PlantDiseaseClassifierService {
       severity: diseaseInfo['severity'] as String,
       symptoms: diseaseInfo['symptoms'] as String,
       recommendations: List<String>.from(diseaseInfo['recommendations'] as List),
-      topClasses: {rawClassName: confidence},
+      topClasses: top3Classes,
     );
   }
 
