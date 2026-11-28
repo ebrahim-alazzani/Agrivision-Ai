@@ -1,124 +1,20 @@
-# 🌿 AgriVision AI — المراقب الزراعي الذكي
+# AgriVision AI
 
-> مشروع قيد التطوير (المرحلة الأولى / MVP) يهدف إلى مساعدة المزارعين في تشخيص أمراض النباتات محلياً على الهاتف وإدارة بيانات المزارع، مع بنية خلفية قابلة للتوسع.
+A work-in-progress computer-vision project exploring plant-health analysis from images.
 
-[![Python](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
-[![PyTorch](https://img.shields.io/badge/PyTorch-MobileNetV3-EE4C2C.svg)](https://pytorch.org/)
-[![ONNX](https://img.shields.io/badge/ONNX-13.28%20MB-005CED.svg)](https://onnx.ai/)
-[![Flutter](https://img.shields.io/badge/Flutter-3.x-02569B.svg)](https://flutter.dev/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-Backend-009688.svg)](https://fastapi.tiangolo.com/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+## Project components
 
----
+- `apps/farmer_mobile/` — Flutter mobile application.
+- `backend/` — FastAPI service.
+- `apps/admin_web/` — ASP.NET Core admin-web starter; the usable admin interface is not complete.
+- `ai/`, `research/`, and `scripts/` — model and engineering code.
 
-## 📌 الشفافية وحالة المشروع الحالية (Current Stage Status)
+## Current limits
 
-> **تحديث نتائج التدريب (2026-11-28):** شُغّل دفتر إعادة التدريب v2 على Google Colab Tesla T4 لعدد 29 فئة من PlantVillage بعد استبعاد الفئات ذات تجميع الأوراق غير الموثوق وفئة Tomato___Target_Spot. أظهر الاختبار المحجوز (7,399 صورة) Accuracy ‏99.7973% وMacro-F1 ‏0.996115. سجّل epoch 11 Accuracy تحقق 99.77% وMacro-F1 ‏99.70% قبل التوقف المبكر؛ لكن الرسم المرسل يبيّن قمة أعلى عند epoch 6، لذا لا نسمّي قيم epoch 11 أفضل تحقق. القيمة الدقيقة للقمة يجب قراءتها من `history.json`. صدّر Colab مرشح ONNX (opset 18) بخطأ فرق عددي أقصى 3.3378601e-06 على probe صور ثابت. هذه نتائج تشغيل أرسلها صاحب المشروع ولم تُعَد هنا من البيانات الخام، وهي تخص PlantVillage ولا تثبت الأداء الحقلي.
-> معاينة PlantDoc عُرضت في Colab، لكن مطابقة مجلداتها بفئات النموذج تقريبية ولم تُراجع كل صورة؛ لذلك لا نعلن منها Accuracy أو Macro-F1. أُنشئ تقرير PDF جديد بحسب تشغيل المالك في Colab؛ التقرير لا يحوّل هذه المعاينة إلى اختبار حقلي معتمد. تفاصيل الدليل وحدوده في [نتائج إعادة التدريب v2](docs/training/retraining-v2-results.md).
+The plant classifier is an experimental project component and has not been validated for field diagnosis. Pest detection, severity estimation, treatment advice, and live camera monitoring are not available as validated capabilities. The web admin remains unfinished.
 
-نلتزم في هذا المستودع بعرض ما تم إنجازه فعلياً وما لا يزال قيد التطوير دون أي مبالغة:
+Detailed run outputs, datasets, personal reports, social-post drafts, and internal roadmaps are kept outside this public repository.
 
-### ✅ دورة إعادة التدريب v2 — نتائج تشغيل Colab التي أرسلها صاحب المشروع
-- المعمارية: **MobileNetV3-Large**؛ عدد المخرجات: **29 فئة**.
-- المصدر: PlantVillage full revision `v0.1.0`؛ تم استبعاد الفئات ذات تجميع أوراق غير مثبت وفئة `Tomato___Target_Spot` حسب ملاحظة المصدر.
-- GPU: Colab Tesla T4. توقف مبكر عند epoch 11.
-- الاختبار المحجوز: **7,399 صورة**؛ Accuracy `99.7973%`، Macro-F1 `0.996115`.
-- مخرجات epoch 11 قبل الإيقاف: validation Accuracy `99.77%` وMacro-F1 `99.70%`. الرسم المرفق يوضح أن قمة التحقق ظهرت عند epoch 6؛ تُقرأ قيمتها الدقيقة من `history.json` ولا نستبدلها بتقدير بصري.
-- مرشح ONNX opset 18: max absolute parity error `3.3378601e-06` على probe صور حقيقية ثابتة.
-- هذه الأرقام من مخرجات جلسة Colab أرسلها المستخدم؛ لم نعد تشغيل التدريب أو نتحقق من البيانات الخام في هذا المستودع. لا تعني الأداء الحقلي ولا توافق Android المؤكد.
-- تقرير الفئات الـ29 المرسل من Colab محفوظ بصيغة CSV في [`retraining-v2-classification-report.csv`](docs/training/retraining-v2-classification-report.csv)، ويغذي الرسم الفعلي لكل فئة.
+## License
 
-### لماذا أُعيد التدريب؟
-أظهر تدقيق المسار السابق تعارضاً بين عقد الفئات (38 فئة في النموذج المرفق مقابل 39 في دفتر التدريب)، وإضافة فئة خلفية من COCO128 لا تمثل مرض نبات، وعدم وجود مجموعة اختبار نهائية مستقلة في ذلك المسار. لذلك أُنشئ مسار v2 ببيانات PlantVillage محددة الإصدار، وتجميع الصور حسب `leaf_id`، وفحص التطابقات، ومجموعات تدريب/تحقق/اختبار منفصلة. الهدف كان إصلاح قابلية التحقق من التجربة، لا ملاحقة رقم دقة أعلى. تفاصيل التدقيق والنتائج والقيود في [سجل النتائج](docs/training/retraining-v2-results.md).
-
-### 📊 حالة التقييم الخارجي
-تم إنشاء معاينة PlantDoc بصور وتنبؤات وثقة. لكن ربط تسميات مجلدات PlantDoc بفئات النموذج تقريبي، وبعض الصور مركبة أو تتضمن نصوصاً/علامات مائية. **لا توجد حالياً نتيجة Accuracy/Macro-F1 صالحة لـ PlantDoc**؛ التقرير v2 يصف هذا الجزء كمعاينة استكشافية فقط. يلزم تدقيق الوسوم والصور فردياً قبل القياس الخارجي.
-
-
-2. **تطبيق الهاتف للمزارع (`apps/farmer_mobile/`):**
-   - مبني بـ **Flutter** مع إدارة الحالة **GetX** وقاعدة بيانات محلية **SQLite** للعمل بدون إنترنت.
-   - تم دمج **`onnxruntime`** لتشغيل نموذج الـ ONNX محلياً على الهاتف (من صورة الكاميرا أو المعرض) والتمييز بين النبات **السليم والمعافى** والحالات المصابة.
-   - حفظ وإدارة بيانات المزارع والمحاصيل محلياً في SQLite، مع حاسبة جرعات المبيدات.
-
-3. **الخادم الخلفي (`backend/`) والبنية التحتية (`infrastructure/`):**
-   - واجهات **FastAPI** (المصادقة، المزارع، المحاصيل، التحليل، الطقس، المبيدات، واستوديو النماذج) مع نماذج SQLAlchemy ومخططات Pydantic وملفات Docker و PostgreSQL/PostGIS.
-
----
-
-### ⚠️ قيود المرحلة الحالية (ما لم يكتمل بعد)
-* **فحص الفيديو والبث المباشر للكاميرا:** غير مفعّل حالياً في التطبيق (الفحص الحالي يتم عبر التقاط صورة ثابتة أو اختيارها من المعرض).
-* **الربط الكامل مع الخادم (Backend Sync):** تطبيق الهاتف يعمل حالياً بشكل محلي (Local-First) ولم يتم ربط المزامنة السحابية الحية مع FastAPI بشكل كامل في كل الشاشات بعد.
-* **الطقس وكشف الآفات الحشرية:** شاشة الطقس تعتمد حالياً على بيانات أولية/محلية لحين ربطها بمزود طقس حي. لا يوجد وزن YOLO مدرّب للآفات؛ فالنموذج v2 مصنف أمراض أوراق فقط.
-* **تحسين معمارية التطبيق والواجهة (Flutter Clean Architecture & UI):** جارٍ العمل على فصل الطبقات بشكل صارم (منع ربط الـ Controllers مباشرة بقواعد البيانات دون المرور بـ UseCases/Repositories)، وفصل الويدجت المشتركة والخاصة، وتحسين الواجهة والخط العربي.
-* **لوحة الإدارة:** غير مكتملة. يوجد ملف تشغيل ASP.NET Core مبدئي في `apps/admin_web/`، لكن المالك أفاد أن واجهة الإدارة لا تعرض محتوى عملياً؛ لذلك لا نعدّ الإحصاءات أو إدارة المستخدمين والمحاصيل والنماذج أو التقارير منجزة حتى تظهر وتعمل في الواجهة فعلياً.
-* **النموذج الجديد:** مرشح ONNX من 29 فئة محفوظ في Google Drive؛ لم يُدمج في Flutter. النموذج المضمّن حالياً في الهاتف يبقى إصدار 38 فئة حتى اختبار Android ومراجعة عقد الفئات.
-
----
-
-## 🗺️ خارطة الطريق المحدثة
-1. **إغلاق التقييم الخارجي:** تدقيق صور PlantDoc وتسمياتها صورةً بصورة؛ إزالة الصور المركبة/النصية أو ذات الوسم غير الموثوق، وبناء manifest قابل للتدقيق. لا نستخدم دقة PlantDoc حتى تكتمل هذه الخطوة.
-2. **اختبار حقل محلي:** جمع صور يمنية بموافقة أصحابها وتأكيد مختص زراعي، مع فصل المزارع/جلسات التصوير بين التطوير والاختبار.
-3. **اختبار مرشح ONNX على Android:** توحيد preprocessing وخريطة الفئات الـ29، قياس النتائج والسرعة والذاكرة على أجهزة فعلية؛ لا استبدال نموذج الهاتف ذي 38 فئة قبل اجتيازها.
-4. **إصدار نموذج مضبوط:** إصدار model card وبيانات المصدر والتقسيم والبصمات وتقرير لكل فئة؛ تثبيت نسخة مرشح فقط بعد مراجعة بشرية.
-5. **توسعة كشف الآفات:** اختيار محصول وآفات مستهدفة، جمع صور مرخصة بمربعات ومراجعة مختص، ثم تدريب/تقييم كاشف مستقل.
-6. **تقسيم مواضع الإصابة والفيديو:** بعد تثبيت بيانات الكشف، إضافة segmentation والتتبع وتجميع النتائج زمنياً.
-7. **لوحة الويب:** بناء واجهة إدارية قابلة للاستخدام وربط شاشاتها ببيانات FastAPI الحقيقية: نظرة عامة، المستخدمون، المحاصيل، النماذج، سجل التحليلات، سجل التدقيق والتقارير. لا تُعلن اللوحة منجزة قبل التحقق من ظهور هذه الشاشات وعملها. ثم استكمال مزامنة Flutter/FastAPI.
-
-للتوثيق الكامل لسبب إعادة التدريب، وأرقام التشغيل وحدودها، راجع [سجل نتائج v2](docs/training/retraining-v2-results.md). ومسودة النشر والصور التوضيحية في [حزمة منشور فيسبوك](docs/social/facebook-post-ar.md).
-
----
-
-## 📁 هيكل المستودع الفعلي (Repository Structure)
-
-```text
-agrivision-ai/
-├── AgriVision_AI_Colab_Training_T4.ipynb   # نوت بوك تدريب نموذج أمراض النبات على Colab
-├── AgriVision_AI_Colab_Training_T4_v2.ipynb # إعادة تدريب مستقلة: 29 فئة، اختبار محجوز، وتقرير PDF
-├── ai/                                     # الوحدات الأساسية لمحركات الذكاء الاصطناعي والتدريب
-│   ├── engines/                            # هيكلة المحركات (أمراض، آفات، طقس، مبيدات، مراقبة، قرار)
-│   ├── inference/                          # موجه الاستنتاج
-│   ├── training/                           # خطوط التدريب
-│   ├── registry/                           # سجل النماذج
-│   └── tests/                              # اختبارات Python
-├── apps/
-│   └── farmer_mobile/                      # تطبيق المزارع (Flutter Android + ONNX Runtime)
-├── backend/                                # خادم FastAPI (Web API + Celery Workers + Tests)
-├── data/                                   # بيانات أولية ومناطق المحافظات
-├── docs/                                   # التوثيق الهندسي والمعماري
-├── infrastructure/                         # إعدادات Docker و PostGIS و Monitoring
-├── kaggle_kernel/                          # إعدادات تشغيل نوت بوك Kaggle
-├── research/                               # دفاتر التجارب وإعدادات التدريب
-└── scripts/                                # سكربتات تهيئة البيانات والتحقق
-```
-
----
-
-## 🚀 التشغيل السريع (Quick Start)
-
-### 1. تطبيق الهاتف (`apps/farmer_mobile`)
-```bash
-cd apps/farmer_mobile
-flutter pub get
-flutter analyze
-flutter run
-```
-
-### 2. الخادم الخلفي (`backend`)
-```bash
-pip install -r backend/requirements.txt
-uvicorn backend.main:app --reload
-```
-
-### 3. لوحة الإدارة (`apps/admin_web`)
-تعمل اللوحة كعميل ASP.NET Core لواجهات FastAPI نفسها، ولا تتصل بقاعدة البيانات مباشرة. شغّل FastAPI أولاً، ثم:
-```powershell
-$env:AgriVisionApi__BaseUrl = "http://localhost:8000"
-dotnet dev-certs https --trust
-dotnet run --project apps/admin_web/AgriVision.AdminWeb.csproj --urls https://localhost:7043
-```
-تسجيل الدخول يقبل بيانات حساب له دور `admin` في قاعدة البيانات. استخدم HTTPS في بيئة النشر، واضبط عنوان API من إعدادات البيئة.
-
----
-
-## 📄 الترخيص
-هذا المشروع مرخص بموجب رخصة MIT — راجع ملف [LICENSE](LICENSE).
+See [LICENSE](LICENSE).
