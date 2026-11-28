@@ -33,6 +33,10 @@ ENV/
 env.bak/
 venv.bak/
 
+# .NET build outputs
+**/bin/
+**/obj/
+
 # Flutter & Dart
 .dart_tool/
 .flutter-plugins

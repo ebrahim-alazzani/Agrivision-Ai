@@ -3,6 +3,7 @@
 import csv
 import io
 import uuid
+from datetime import datetime, time, timedelta, timezone
 from typing import Any
 
 from fastapi import APIRouter, Depends, HTTPException, Query, Response
@@ -10,9 +11,12 @@ from pydantic import BaseModel
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
+from sqlalchemy.exc import SQLAlchemyError
 
 from backend.api.deps import get_current_active_admin
-from backend.domain.models import AnalysisJob, Crop, Dataset, Farm, ModelVersion, TrainingRun, User
+from backend.domain.models import (
+    AnalysisJob, AnalysisResult, Crop, Dataset, Farm, ModelVersion, TrainingRun, User,
+)
 from backend.infrastructure.database import get_db_session
 
 router = APIRouter(prefix="/admin", tags=["Administration"])
@@ -32,6 +36,85 @@ async def dashboard_summary(
         "crops": await _count(db, Crop), "analyses": await _count(db, AnalysisJob),
         "datasets": await _count(db, Dataset), "models": await _count(db, ModelVersion),
         "training_runs": await _count(db, TrainingRun),
+    }
+
+
+@router.get("/analytics")
+async def dashboard_analytics(
+    days: int = Query(14, ge=7, le=90),
+    _: User = Depends(get_current_active_admin),
+    db: AsyncSession = Depends(get_db_session),
+):
+    """Return real analysis activity grouped by UTC day, status, and result label."""
+    today = datetime.now(timezone.utc).date()
+    first_day = today - timedelta(days=days - 1)
+    since = datetime.combine(first_day, time.min, tzinfo=timezone.utc)
+    day_expression = func.date(AnalysisJob.created_at)
+
+    daily_result = await db.execute(
+        select(day_expression, func.count(AnalysisJob.id))
+        .where(AnalysisJob.created_at >= since)
+        .group_by(day_expression)
+        .order_by(day_expression)
+    )
+    daily_counts = {
+        (day.isoformat() if hasattr(day, "isoformat") else str(day)): int(count)
+        for day, count in daily_result.all()
+    }
+    daily = [
+        {"date": (first_day + timedelta(days=offset)).isoformat(),
+         "count": daily_counts.get((first_day + timedelta(days=offset)).isoformat(), 0)}
+        for offset in range(days)
+    ]
+
+    status_result = await db.execute(
+        select(AnalysisJob.status, func.count(AnalysisJob.id))
+        .where(AnalysisJob.created_at >= since)
+        .group_by(AnalysisJob.status)
+    )
+    statuses = [
+        {"status": str(status.value if hasattr(status, "value") else status), "count": int(count)}
+        for status, count in status_result.all()
+    ]
+
+    label_result = await db.execute(
+        select(AnalysisResult.label, func.count(AnalysisResult.id))
+        .join(AnalysisJob, AnalysisResult.job_id == AnalysisJob.id)
+        .where(AnalysisJob.created_at >= since)
+        .group_by(AnalysisResult.label)
+        .order_by(func.count(AnalysisResult.id).desc(), AnalysisResult.label)
+        .limit(5)
+    )
+    top_labels = [
+        {"label": label, "count": int(count)} for label, count in label_result.all()
+    ]
+
+    return {
+        "window_days": days,
+        "timezone": "UTC",
+        "daily_analyses": daily,
+        "statuses": statuses,
+        "top_result_labels": top_labels,
+    }
+
+
+@router.get("/diagnostics")
+async def admin_diagnostics(
+    _: User = Depends(get_current_active_admin), db: AsyncSession = Depends(get_db_session)
+):
+    """Check the database connection used by this request; never return configuration."""
+    try:
+        await db.execute(select(1))
+    except SQLAlchemyError:
+        return Response(
+            content='{"api":"healthy","database":"unavailable"}',
+            media_type="application/json",
+            status_code=503,
+        )
+    return {
+        "api": "healthy",
+        "database": "healthy",
+        "checked_at": datetime.now(timezone.utc).isoformat(),
     }
 
 
